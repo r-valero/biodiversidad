@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expedición Extinción - Archivo Perdido</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: linear-gradient(135deg, #3e2723 0%, #5d4037 50%, #795548 100%);
+            color: #f5e6d3;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .parchment-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(255,248,220,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,248,220,0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #4a2c2a 0%, #6d4c41 50%, #4a2c2a 100%);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), inset 0 -3px 8px rgba(0,0,0,0.4);
+            position: relative;
+            border-bottom: 4px solid #8d6e63;
+            z-index: 10;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255,235,205,0.15) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #ffecb3;
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0 #3e2723, 5px 5px 15px rgba(0,0,0,0.8);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            color: #d7ccc8;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+            letter-spacing: 2px;
+        }
+        
+        .compass-decoration {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            opacity: 0.4;
+            color: #ffecb3;
+        }
+        
+        .compass-left {
+            left: 2rem;
+        }
+        
+        .compass-right {
+            right: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .intro-text {
+            background: linear-gradient(135deg, rgba(109,76,65,0.9) 0%, rgba(93,64,55,0.9) 100%);
+            border: 3px solid #8d6e63;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,235,205,0.2);
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #f5e6d3;
+        }
+        
+        .intro-text strong {
+            color: #ffecb3;
+            font-size: 1.2rem;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .expedition-card {
+            background: linear-gradient(135deg, #f5e6d3 0%, #efebe9 100%);
+            border: 5px solid #6d4c41;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(109,76,65,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .expedition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(109,76,65,.03) 2px, rgba(109,76,65,.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(109,76,65,.03) 2px, rgba(109,76,65,.03) 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .expedition-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(109,76,65,0.15);
+        }
+        
+        .card-image-container {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-bottom: 4px solid #6d4c41;
+            position: relative;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%) contrast(1.1);
+            transition: all 0.4s ease;
+        }
+        
+        .expedition-card:hover .card-image {
+            filter: sepia(10%) contrast(1.2);
+            transform: scale(1.05);
+        }
+        
+        .card-stamp {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(139,0,0,0.9);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transform: rotate(10deg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.3);
+            z-index: 10;
+            letter-spacing: 1px;
+        }
+        
+        .card-content {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #3e2723;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .card-subtitle {
+            font-style: italic;
+            color: #6d4c41;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-description {
+            line-height: 1.7;
+            color: #4e342e;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .click-hint {
+            text-align: center;
+            background: #6d4c41;
+            color: #ffecb3;
+            padding: 0.7rem;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        /* Modal de información */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #f5e6d3 0%, #efebe9 100%);
+            margin: 3rem auto;
+            padding: 3rem;
+            max-width: 900px;
+            border: 6px solid #6d4c41;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+            animation: slideDown 0.4s ease;
+        }
+        
+        @keyframes slideDown {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(109,76,65,.04) 2px, rgba(109,76,65,.04) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(109,76,65,.04) 2px, rgba(109,76,65,.04) 4px);
+            pointer-events: none;
+            border-radius: 15px;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b0000, #a52a2a);
+            color: white;
+            border: 3px solid #5d0000;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-weight: bold;
+        }
+        
+        .close-button:hover {
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(135deg, #a52a2a, #8b0000);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #6d4c41;
+            padding-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #3e2723;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-scientific {
+            font-style: italic;
+            color: #6d4c41;
+            font-size: 1.1rem;
+        }
+        
+        .modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 4px solid #6d4c41;
+            margin-bottom: 2rem;
+            filter: sepia(15%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            filter: sepia(10%);
+        }
+        
+        /* Modal de imagen ampliada */
+        .image-fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            cursor: zoom-out;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .image-fullscreen-modal img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+            border: 6px solid #6d4c41;
+            border-radius: 10px;
+        }
+        
+        .image-fullscreen-modal .close-button {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            cursor: pointer;
+        }
+        
+        .info-section {
+            margin-bottom: 2rem;
+            background: rgba(109,76,65,0.08);
+            padding: 1.5rem;
+            border-left: 5px solid #6d4c41;
+            border-radius: 8px;
+        }
+        
+        .info-section h3 {
+            font-family: 'Cinzel', serif;
+            color: #3e2723;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-section h3::before {
+            content: '◆';
+            margin-right: 0.7rem;
+            color: #8d6e63;
+            font-size: 1.2rem;
+        }
+        
+        .info-text {
+            line-height: 1.8;
+            color: #4e342e;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+        
+        .threats-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .threats-list li {
+            padding: 0.7rem 0;
+            color: #4e342e;
+            font-weight: 500;
+            border-bottom: 1px dashed #bcaaa4;
+        }
+        
+        .threats-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .threats-list li::before {
+            content: '⚠';
+            margin-right: 0.8rem;
+            color: #8b0000;
+            font-size: 1.2rem;
+        }
+        
+        .status-critical {
+            background: linear-gradient(135deg, #8b0000, #a52a2a);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            margin-top: 1rem;
+        }
+        
+        .citation {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #bcaaa4;
+            font-size: 0.9rem;
+            color: #6d4c41;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .expedition-footer {
+            background: linear-gradient(135deg, rgba(109,76,65,0.95) 0%, rgba(93,64,55,0.95) 100%);
+            color: #f5e6d3;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 5px solid #8d6e63;
+            box-shadow: 0 -8px 25px rgba(0,0,0,0.5);
+        }
+        
+        .expedition-footer h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #ffecb3;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+        
+        .expedition-footer p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+        }
+        
+        .explorer-button {
+            background: linear-gradient(135deg, #ffecb3, #ffe082);
+            color: #3e2723;
+            padding: 1.2rem 3rem;
+            border: 3px solid #6d4c41;
+            border-radius: 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .explorer-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, #ffe082, #ffecb3);
+        }
+        
+        footer {
+            background: #3e2723;
+            color: #d7ccc8;
+            text-align: center;
+            padding: 2rem;
+            border-top: 3px solid #6d4c41;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .compass-decoration {
+                display: none;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="parchment-texture"></div>
+    
+    <header>
+        <div class="compass-decoration compass-left">⚜</div>
+        <h1>🗺️ EXPEDICIÓN EXTINCIÓN 🗺️</h1>
+        <p class="subtitle">Archivo de Especies Perdidas · Clasificado</p>
+        <div class="compass-decoration compass-right">⚜</div>
+    </header>
+    
+    <div class="container">
+        <div class="intro-text">
+            <strong>📜 Diario del Explorador, Enero 2026</strong><br><br>
+            En mi última expedición por tierras remotas, he documentado cinco especies en peligro crítico de desaparecer para siempre. 
+            Este archivo contiene evidencia fotográfica y mis notas de campo sobre las amenazas que enfrentan estas criaturas extraordinarias. 
+            El tiempo se agota... debemos actuar antes de que sea demasiado tarde.
+        </div>
+        
+        <div class="cards-grid">
+            <!-- PANGOLÍN -->
+            <div class="expedition-card" onclick="openModal('pangolin')">
+                <div class="card-image-container">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f0eb361f-7628-4a82-8d03-53d9d3d5773b" alt="Pangolín" class="card-image">
+                    <div class="card-stamp">PELIGRO CRÍTICO</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Pangolín</h2>
+                    <p class="card-subtitle">Manis sp. · El Guerrero con Armadura</p>
+                    <p class="card-description">
+                        <strong>Ubicación:</strong> Selvas de África y Asia<br>
+                        <strong>Estado:</strong> El mamífero más traficado del mundo<br>
+                        <strong>Amenaza principal:</strong> Tráfico ilegal masivo
+                    </p>
+                    <div class="click-hint">👆 Abrir Expediente Clasificado</div>
+                </div>
+            </div>
+            
+            <!-- TIGRE DE SUMATRA -->
+            <div class="expedition-card" onclick="openModal('tiger')">
+                <div class="card-image-container">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/1035e925-bfad-4c28-a523-e305bb01bdff" alt="Tigre de Sumatra" class="card-image">
+                    <div class="card-stamp">PELIGRO CRÍTICO</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Tigre de Sumatra</h2>
+                    <p class="card-subtitle">Panthera tigris sumatrae · El Último Cazador</p>
+                    <p class="card-description">
+                        <strong>Ubicación:</strong> Isla de Sumatra, Indonesia<br>
+                        <strong>Estado:</strong> Menos de 400 individuos restantes<br>
+                        <strong>Amenaza principal:</strong> Deforestación y caza furtiva
+                    </p>
+                    <div class="click-hint">👆 Abrir Expediente Clasificado</div>
+                </div>
+            </div>
+            
+            <!-- ARRECIFE DE CORAL -->
+            <div class="expedition-card" onclick="openModal('coral')">
+                <div class="card-image-container">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ed884abf-42e9-4433-ae99-aee6a0944b3e" alt="Arrecife de Coral" class="card-image">
+                    <div class="card-stamp">PUNTO SIN RETORNO</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Arrecife de Coral</h2>
+                    <p class="card-subtitle">Scleractinia · El Bosque Submarino</p>
+                    <p class="card-description">
+                        <strong>Ubicación:</strong> Océanos tropicales del mundo<br>
+                        <strong>Estado:</strong> Primer ecosistema en colapso irreversible<br>
+                        <strong>Amenaza principal:</strong> Calentamiento global
+                    </p>
+                    <div class="click-hint">👆 Abrir Expediente Clasificado</div>
+                </div>
+            </div>
+            
+            <!-- PODOCARPUS BARBIE -->
+            <div class="expedition-card" onclick="openModal('barbie')">
+                <div class="card-image-container">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/a84bcd6a-fffd-40ef-9443-27ad7a98dc24" alt="Hongo Rosa" class="card-image">
+                    <div class="card-stamp">VULNERABLE</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Hongo Rosa de Barbie</h2>
+                    <p class="card-subtitle">Porpolomopsis calyptriformis · La Bailarina Rosa</p>
+                    <p class="card-description">
+                        <strong>Ubicación:</strong> Praderas no mejoradas de Europa<br>
+                        <strong>Estado:</strong> Vulnerable con población decreciente<br>
+                        <strong>Amenaza principal:</strong> Pérdida de hábitat y agricultura
+                    </p>
+                    <div class="click-hint">👆 Abrir Expediente Clasificado</div>
+                </div>
+            </div>
+            
+            <!-- CÓNDOR ANDINO -->
+            <div class="expedition-card" onclick="openModal('condor')">
+                <div class="card-image-container">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2c709a74-9d87-40b4-aa49-2397652a55f5" alt="Cóndor Andino" class="card-image">
+                    <div class="card-stamp">VULNERABLE</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Cóndor Andino</h2>
+                    <p class="card-subtitle">Vultur gryphus · El Rey de los Andes</p>
+                    <p class="card-description">
+                        <strong>Ubicación:</strong> Cordillera de los Andes<br>
+                        <strong>Estado:</strong> ~6,700 individuos, crítico en Colombia<br>
+                        <strong>Amenaza principal:</strong> Envenenamiento y pérdida de hábitat
+                    </p>
+                    <div class="click-hint">👆 Abrir Expediente Clasificado</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="expedition-footer">
+            <h2>⚔️ La Última Cruzada por la Conservación ⚔️</h2>
+            <p>
+                Como Indiana Jones enfrentó el tiempo para salvar los tesoros perdidos de la humanidad, 
+                ahora nosotros debemos actuar con urgencia para proteger estos tesoros vivientes antes de que desaparezcan para siempre. 
+                Cada especie es una pieza irreemplazable del legado natural de nuestro planeta.
+            </p>
+            <p>
+                <strong>La extinción es para siempre. La acción es ahora.</strong>
+            </p>
+            <button class="explorer-button" onclick="alert('🗺️ LLAMADO A LA ACCIÓN DEL EXPLORADOR 🗺️\n\nMisiones para la Conservación:\n\n✓ Reduce tu huella de carbono\n✓ Apoya áreas protegidas y reservas naturales\n✓ No compres productos de animales en peligro\n✓ Evita productos con aceite de palma no sostenible\n✓ Apoya organizaciones de conservación\n✓ Educa a otros sobre estas especies\n✓ Participa en ciencia ciudadana\n✓ Protege espacios verdes locales\n\n¡La aventura de la conservación comienza contigo!')">
+                Unirse a la Expedición
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <p><strong>Expedición Extinción</strong> | Archivo Clasificado 2026</p>
+        <p>Documentado por Exploradores de la Conservación Global</p>
+        <p>🗺️ Información basada en datos científicos de IUCN, WWF y organizaciones mundiales 🗺️</p>
+    </footer>
+    
+    <!-- MODALES DE INFORMACIÓN -->
+    
+    <!-- Modal Pangolín -->
+    <div id="modal-pangolin" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal('pangolin')">✕</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Pangolín</h2>
+                <p class="modal-scientific">Manis sp. · El Guerrero con Armadura</p>
+                <span class="status-critical">⚠ Peligro Crítico de Extinción</span>
+            </div>
+            
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f0eb361f-7628-4a82-8d03-53d9d3d5773b" alt="Pangolín" class="modal-image" onclick="openImageFullscreen(this.src)" title="Click para ampliar imagen">
+            
+            <div class="info-section">
+                <h3>Notas del Explorador</h3>
+                <p class="info-text">
+                    Durante mi expedición en las selvas profundas de África y Asia, he documentado al pangolín, una criatura extraordinaria cubierta de escamas de queratina que actúan como una armadura natural. Es el único mamífero del mundo completamente cubierto de escamas. Sin embargo, esta armadura que lo protege de depredadores naturales no puede defenderlo de la mayor amenaza: el ser humano.
+                </p>
+                <p class="info-text">
+                    <strong>El mamífero más traficado del mundo.</strong> Las 8 especies de pangolines están en riesgo crítico debido al tráfico ilegal masivo. Sus escamas son vendidas ilegalmente en mercados de medicina tradicional asiática, a pesar de estar compuestas simplemente de queratina (el mismo material que nuestras uñas).
+                </p>
+            </div>
+            
+            <div class="info-section">
+                <h3>Amenazas Documentadas</h3>
+                <ul class="threats-list">
+                    <li><strong>Tráfico masivo sin precedentes:</strong> Más de 500,000 pangolines capturados entre 2016-2024, convirtiéndolo en el mamífero más traficado del planeta</li>
+                    <li><strong>Medicina tradicional:</strong> Sus escamas son vendidas ilegalmente en mercados asiáticos, a pesar de no tener propiedades medicinales científicamente comprobadas</li>
+                    <li><strong>Caza furtiva intensiva:</strong> Cada 3 minutos un pangolín es cazado ilegalmente en el mundo</li>
+                    <li><strong>Pérdida acelerada de hábitat:</strong> Deforestación continua en África y Asia destruye su hogar natural</li>
+                    <li><strong>Comercio ilegal:</strong> A pesar de protecciones internacionales, el mercado negro sigue prosperando</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>Pronóstico de Extinción</h3>
+                <p class="info-text">
+                    <strong>Estimación crítica:</strong> Si las tendencias actuales continúan, múltiples especies de pangolines podrían extinguirse en estado salvaje en los próximos 10-15 años. La población ha disminuido más del 85% en las últimas décadas. El pangolín chino y el malayo están al borde de la extinción funcional en varias regiones.
+                </p>
+            </div>
+            
+            <div class="citation">
+                Fuentes documentadas: IUCN Pangolin Specialist Group 2025, U.S. Fish and Wildlife Service 2025, ZSL 2025
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Tigre de Sumatra -->
+    <div id="modal-tiger" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal('tiger')">✕</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Tigre de Sumatra</h2>
+                <p class="modal-scientific">Panthera tigris sumatrae · El Último Cazador de Indonesia</p>
+                <span class="status-critical">⚠ Peligro Crítico de Extinción</span>
+            </div>
+            
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/1035e925-bfad-4c28-a523-e305bb01bdff" alt="Tigre de Sumatra" class="modal-image" onclick="openImageFullscreen(this.src)" title="Click para ampliar imagen">
+            
+            <div class="info-section">
+                <h3>Notas del Explorador</h3>
+                <p class="info-text">
+                    En las profundidades de las selvas tropicales de Sumatra, he rastreado al último tigre de Indonesia. Este majestuoso felino es el único superviviente de tres subespecies de tigres indonesios: los tigres de Bali y Java ya se han extinguido para siempre. El tigre de Sumatra es el más pequeño de todas las subespecies de tigre, una adaptación evolutiva a su hábitat selvático denso.
+                </p>
+                <p class="info-text">
+                    <strong>Quedan menos de 400 individuos en libertad.</strong> Cada tigre de Sumatra es invaluable para la supervivencia de la especie. He documentado territorios cada vez más fragmentados y poblaciones aisladas que dificultan la reproducción.
+                </p>
+            </div>
+            
+            <div class="info-section">
+                <h3>Amenazas Documentadas</h3>
+                <ul class="threats-list">
+                    <li><strong>Destrucción masiva de hábitat:</strong> 30 millones de acres de bosque perdidos, el 50% del hábitat desapareció en solo 22 años</li>
+                    <li><strong>Plantaciones de aceite de palma:</strong> El 20% del hábitat del tigre fue convertido en plantaciones entre 2000-2012, y la expansión continúa</li>
+                    <li><strong>Conflicto humano-tigre:</strong> Tigres matados en represalia por ataques al ganado a medida que pierden su hábitat natural</li>
+                    <li><strong>Caza furtiva persistente:</strong> 8+ tigres mueren anualmente por caza ilegal; su piel, huesos y dientes son vendidos en el mercado negro</li>
+                    <li><strong>Pérdida de presas naturales:</strong> Reducción dramática de jabalíes y otros ungulados por fiebre porcina africana y caza</li>
+                    <li><strong>Fragmentación de población:</strong> Poblaciones aisladas con endogamia que reduce la diversidad genética</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>Pronóstico de Extinción</h3>
+                <p class="info-text">
+                    <strong>Estimación alarmante:</strong> Con una población de menos de 400 individuos y una tasa de pérdida de hábitat del 2-3% anual, el tigre de Sumatra podría extinguirse en estado salvaje en 20-30 años si no se implementan medidas drásticas inmediatamente. La fragmentación del hábitat está creando poblaciones no viables genéticamente.
+                </p>
+            </div>
+            
+            <div class="citation">
+                Fuentes documentadas: Rainforest Alliance 2024, International Tiger Project 2025, IFAW 2025, Earth.org 2025
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Arrecife de Coral -->
+    <div id="modal-coral" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal('coral')">✕</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Arrecife de Coral</h2>
+                <p class="modal-scientific">Scleractinia · El Bosque Submarino en Colapso</p>
+                <span class="status-critical">⚠ Primer Punto de Inflexión Sin Retorno</span>
+            </div>
+            
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ed884abf-42e9-4433-ae99-aee6a0944b3e" alt="Arrecife de Coral" class="modal-image" onclick="openImageFullscreen(this.src)" title="Click para ampliar imagen">
+            
+            <div class="info-section">
+                <h3>Notas del Explorador</h3>
+                <p class="info-text">
+                    Durante mis expediciones submarinas en los océanos tropicales, he sido testigo de una tragedia en desarrollo. Los arrecifes de coral de aguas cálidas son el primer ecosistema terrestre en cruzar un punto de inflexión catastrófico debido al calentamiento global. He documentado vastas extensiones de coral blanqueado, fantasmas pálidos de lo que antes eran jardines submarinos vibrantes.
+                </p>
+                <p class="info-text">
+                    <strong>Estos ecosistemas albergan el 25% de todas las especies marinas</strong> a pesar de ocupar menos del 1% del fondo oceánico. Son las "selvas tropicales del mar", pero están muriendo ante nuestros ojos en un colapso masivo irreversible.
+                </p>
+            </div>
+            
+            <div class="info-section">
+                <h3>Amenazas Documentadas</h3>
+                <ul class="threats-list">
+                    <li><strong>Calentamiento global sin precedentes:</strong> La temperatura global ha superado 1.4°C desde la era preindustrial, muy por encima del límite seguro</li>
+                    <li><strong>Cuarto blanqueamiento masivo global:</strong> El evento de blanqueamiento 2023-presente es el más severo registrado en la historia</li>
+                    <li><strong>Punto de no retorno alcanzado:</strong> A 1.2°C los corales pierden su capacidad de recuperación; ya hemos superado ese umbral</li>
+                    <li><strong>Acidificación oceánica acelerada:</strong> El CO₂ absorbido por los océanos reduce el pH del agua, dificultando la formación de estructuras de carbonato de calcio</li>
+                    <li><strong>44% de especies en riesgo crítico:</strong> Más del 40% de todas las especies de coral están amenazadas de extinción según IUCN 2025</li>
+                    <li><strong>Olas de calor marinas:</strong> Eventos de temperatura extrema cada vez más frecuentes e intensos</li>
+                    <li><strong>Mortalidad masiva en cadena:</strong> La muerte de corales elimina el hábitat de millones de especies dependientes</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>Pronóstico de Extinción</h3>
+                <p class="info-text">
+                    <strong>Estimación catastrófica:</strong> Los científicos predicen que el 70-90% de los arrecifes de coral del mundo desaparecerán en las próximas 2-3 décadas, incluso con esfuerzos de mitigación climática agresivos. A 2°C de calentamiento (trayectoria actual), prácticamente el 99% de los arrecifes de coral morirían. Este es el primer ecosistema mayor del planeta en alcanzar un punto de inflexión irreversible.
+                </p>
+                <p class="info-text">
+                    <strong>Consecuencia:</strong> La extinción funcional de los ecosistemas de arrecifes causaría el colapso de las pesquerías que alimentan a 500 millones de personas y la pérdida de protección costera contra tormentas para cientos de millones más.
+                </p>
+            </div>
+            
+            <div class="citation">
+                Fuentes documentadas: Global Tipping Points Report 2025, IUCN Red List 2025, NASA Climate 2024, The Guardian 2025, Earth.org 2025
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Hongo Rosa Barbie -->
+    <div id="modal-barbie" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal('barbie')">✕</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Hongo Rosa de Barbie</h2>
+                <p class="modal-scientific">Porpolomopsis calyptriformis · La Bailarina de las Praderas</p>
+                <span class="status-critical">⚠ Vulnerable con Población Decreciente</span>
+            </div>
+            
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/a84bcd6a-fffd-40ef-9443-27ad7a98dc24" alt="Hongo Rosa" class="modal-image" onclick="openImageFullscreen(this.src)" title="Click para ampliar imagen">
+            
+            <div class="info-section">
+                <h3>Notas del Explorador</h3>
+                <p class="info-text">
+                    En las praderas antiguas no perturbadas de Europa, he documentado uno de los hongos más hermosos y raros del continente: el Hongo Rosa de Barbie, también conocido como "Ballerina Waxcap" por su sombrero cónico que se asemeja a una bailarina haciendo una pirueta. Su color rosa intenso y su forma distintiva lo hacen inconfundible.
+                </p>
+                <p class="info-text">
+                    <strong>Este hongo es un indicador crucial de la salud de las praderas.</strong> Solo crece en pastizales antiguos que nunca han sido mejorados con fertilizantes químicos, lo que lo convierte en un bioindicador de ecosistemas de pradera prístinos. En marzo de 2025, la IUCN añadió 1,000 especies de hongos a la Lista Roja, incluyendo este delicado organismo como "Vulnerable".
+                </p>
+            </div>
+            
+            <div class="info-section">
+                <h3>Amenazas Documentadas</h3>
+                <ul class="threats-list">
+                    <li><strong>Pérdida de praderas antiguas:</strong> La agricultura intensiva y el uso de fertilizantes químicos destruyen el hábitat específico que necesita</li>
+                    <li><strong>Conversión agrícola:</strong> Las praderas no mejoradas están siendo convertidas constantemente en tierras de cultivo intensivo</li>
+                    <li><strong>Recolección excesiva:</strong> Aunque no comestible y de mal sabor, algunos recolectores lo cosechan por su belleza distintiva</li>
+                    <li><strong>Fragmentación del hábitat:</strong> Las praderas restantes están cada vez más aisladas, dificultando la dispersión de esporas</li>
+                    <li><strong>Cambio climático:</strong> Alteración de los patrones de lluvia y temperatura que afectan su fructificación</li>
+                    <li><strong>Disminución de pastoreo tradicional:</strong> El abandono del pastoreo de ovejas en praderas acidófilas altera el ecosistema</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>Pronóstico de Extinción</h3>
+                <p class="info-text">
+                    <strong>Estimación preocupante:</strong> Si continúa la conversión de praderas antiguas al ritmo actual (2-3% anual), el Hongo Rosa de Barbie podría extinguirse localmente en muchas regiones de Europa en 30-50 años. En Reino Unido, donde fue removido de la Lista Roja en 2006, nuevos estudios en 2024-2025 mostraron que sigue siendo vulnerable con poblaciones decrecientes, especialmente fuera de sus bastiones en Gales y oeste de Inglaterra.
+                </p>
+                <p class="info-text">
+                    <strong>Importancia ecosistémica:</strong> La extinción de este hongo indicaría el colapso completo de ecosistemas de pradera antigua que albergan cientos de especies especializadas.
+                </p>
+            </div>
+            
+            <div class="citation">
+                Fuentes documentadas: IUCN Red List 2025, Plantlife UK 2024-2025, British Mycological Society 2025, WildFoodUK 2025
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Cóndor Andino -->
+    <div id="modal-condor" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal('condor')">✕</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Cóndor Andino</h2>
+                <p class="modal-scientific">Vultur gryphus · El Rey de los Cielos Andinos</p>
+                <span class="status-critical">⚠ Vulnerable (Crítico en Colombia/Ecuador)</span>
+            </div>
+            
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2c709a74-9d87-40b4-aa49-2397652a55f5" alt="Cóndor Andino" class="modal-image" onclick="openImageFullscreen(this.src)" title="Click para ampliar imagen">
+            
+            <div class="info-section">
+                <h3>Notas del Explorador</h3>
+                <p class="info-text">
+                    En las alturas imponentes de la Cordillera de los Andes, desde Venezuela hasta Argentina, he seguido el vuelo majestuoso del Cóndor Andino, el ave voladora más grande del mundo con una envergadura de hasta 3.2 metros (10.5 pies). Este carroñero gigante es un símbolo de libertad y poder en las culturas andinas, pero enfrenta amenazas crecientes que ponen en peligro su supervivencia.
+                </p>
+                <p class="info-text">
+                    <strong>Rol ecológico vital:</strong> Como carroñero, el cóndor actúa como el "equipo de limpieza de la naturaleza", alimentándose de cadáveres y preveniendo la propagación de enfermedades. Su desaparición tendría consecuencias ecológicas devastadoras en los ecosistemas andinos.
+                </p>
+            </div>
+            
+            <div class="info-section">
+                <h3>Amenazas Documentadas</h3>
+                <ul class="threats-list">
+                    <li><strong>Envenenamiento directo e indirecto:</strong> Cebos envenenados colocados por ganaderos; en 2021, 35 cóndores fueron encontrados muertos en Tarija, Bolivia, por envenenamiento</li>
+                    <li><strong>Persecución humana:</strong> Matados erróneamente por ganaderos que creen (falsamente) que atacan al ganado vivo</li>
+                    <li><strong>Pérdida acelerada de hábitat:</strong> Expansión agrícola, tala y desarrollo urbano reducen su territorio de anidación y alimentación</li>
+                    <li><strong>Contaminación por plomo:</strong> Intoxicación por ingerir munición de plomo dejada en cadáveres de animales cazados</li>
+                    <li><strong>Colisión con infraestructura:</strong> Electrocución en cables de alta tensión y colisión con aerogeneradores</li>
+                    <li><strong>Baja tasa reproductiva:</strong> Solo ponen un huevo cada 2 años, lo que hace muy lenta la recuperación poblacional</li>
+                    <li><strong>Perturbación humana:</strong> Turismo no regulado en sitios de anidación causa abandono de nidos</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3>Pronóstico de Extinción</h3>
+                <p class="info-text">
+                    <strong>Situación crítica por país:</strong> Aunque la población global es de ~6,700 individuos (clasificación IUCN: Vulnerable), la situación varía dramáticamente:
+                </p>
+                <p class="info-text">
+                    • <strong>Colombia:</strong> Solo ~130 individuos restantes (Críticamente Amenazado). Sin intervención urgente, extinción local posible en 15-25 años.<br>
+                    • <strong>Ecuador:</strong> ~150 individuos (Críticamente Amenazado)<br>
+                    • <strong>Venezuela:</strong> Posiblemente extinto localmente<br>
+                    • <strong>Bolivia:</strong> ~1,388 individuos estimados
+                </p>
+                <p class="info-text">
+                    <strong>Programas de cría en cautiverio:</strong> Colombia ha iniciado programas de incubación artificial que produjeron 3 polluelos en 2024 para liberación futura. Iniciativas similares en Estados Unidos salvaron al cóndor de California (de 22 a 300+ individuos).
+                </p>
+                <p class="info-text">
+                    <strong>Éxito comunitario:</strong> En Cerrito, Colombia, comunidades de pastores han transformado al cóndor de "enemigo" a "aliado", creando un modelo de coexistencia que atrae turismo sostenible.
+                </p>
+            </div>
+            
+            <div class="citation">
+                Fuentes documentadas: IUCN 2020, Visit My Colombia 2025, Andes Amazon Fund 2025, Mongabay 2025, Rewilding Chile 2026, People.com 2026
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openModal(species) {
+            const modal = document.getElementById('modal-' + species);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(species) {
+            const modal = document.getElementById('modal-' + species);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = 'none';
+                });
+                document.body.style.overflow = 'auto';
+                
+                // También cerrar modal de imagen ampliada
+                const imageModal = document.getElementById('image-fullscreen-modal');
+                if (imageModal) {
+                    imageModal.style.display = 'none';
+                }
+            }
+        });
+        
+        // Función para abrir imagen en pantalla completa
+        function openImageFullscreen(imageSrc) {
+            event.stopPropagation(); // Evitar que se cierre el modal principal
+            
+            // Crear modal de imagen si no existe
+            let imageModal = document.getElementById('image-fullscreen-modal');
+            if (!imageModal) {
+                imageModal = document.createElement('div');
+                imageModal.id = 'image-fullscreen-modal';
+                imageModal.className = 'image-fullscreen-modal';
+                imageModal.innerHTML = `
+                    <button class="close-button" onclick="closeImageFullscreen()">✕</button>
+                    <img src="" alt="Imagen ampliada">
+                `;
+                document.body.appendChild(imageModal);
+                
+                // Cerrar al hacer clic en el fondo
+                imageModal.onclick = function(e) {
+                    if (e.target === imageModal) {
+                        closeImageFullscreen();
+                    }
+                };
+            }
+            
+            // Establecer la imagen y mostrar
+            const img = imageModal.querySelector('img');
+            img.src = imageSrc;
+            imageModal.style.display = 'block';
+        }
+        
+        // Función para cerrar imagen en pantalla completa
+        function closeImageFullscreen() {
+            const imageModal = document.getElementById('image-fullscreen-modal');
+            if (imageModal) {
+                imageModal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
