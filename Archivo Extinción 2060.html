@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo Extinción 2060 - Especies Perdidas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --color-primary: #e8c89f;
+            --color-accent: #f59e0b;
+            --color-bg-dark: #1a1613;
+            --color-bg-medium: #2d2520;
+            --color-bg-light: #3d332a;
+            --color-text-primary: #f5e6d3;
+            --color-text-secondary: #c4b5a0;
+            --color-text-muted: #8a7f73;
+            --color-border: rgba(232, 200, 159, 0.2);
+            --color-danger: #dc2626;
+            --color-warning: #f59e0b;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 14px;
+            --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--color-bg-dark) 0%, var(--color-bg-medium) 100%);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(90deg, rgba(42, 35, 28, 0.95) 0%, rgba(45, 37, 32, 0.95) 100%);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border-bottom: 3px solid var(--color-accent);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--color-primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .subtitle {
+            font-family: 'Courier New', monospace;
+            color: var(--color-accent);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        
+        .year-badge {
+            display: inline-block;
+            background: var(--color-danger);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-sm);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .intro-text {
+            background: rgba(45, 37, 32, 0.6);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-text-secondary);
+            backdrop-filter: blur(5px);
+        }
+        
+        .intro-text strong {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .species-card {
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .species-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent);
+        }
+        
+        .card-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition);
+            loading: lazy;
+        }
+        
+        .species-card:hover .card-image {
+            transform: scale(1.08);
+        }
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+        
+        .card-title-main {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+        
+        .card-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        
+        .badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .badge-extinct {
+            background: var(--color-danger);
+            color: white;
+        }
+        
+        .badge-biome {
+            background: rgba(245, 158, 11, 0.9);
+            color: var(--color-bg-dark);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-subtitle {
+            font-style: italic;
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-description {
+            line-height: 1.6;
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        /* Modal de detalle */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 220ms ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--color-bg-medium);
+            margin: 2rem auto;
+            max-width: 1200px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 280ms ease;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--color-danger);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+            z-index: 10;
+            font-weight: bold;
+        }
+        
+        .modal-close:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .modal-close:focus-visible {
+            outline: 3px solid var(--color-accent);
+            outline-offset: 2px;
+        }
+        
+        .modal-layout {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            padding: 2.5rem;
+        }
+        
+        .modal-left {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+        
+        .modal-image-container {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        
+        .modal-image-container:hover {
+            border-color: var(--color-accent);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .summary-card {
+            background: var(--color-bg-dark);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+        }
+        
+        .summary-card-label {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+        }
+        
+        .summary-card-value {
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .modal-right {
+            padding-right: 1rem;
+        }
+        
+        .modal-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-border);
+        }
+        
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-scientific {
+            font-style: italic;
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+        }
+        
+        .content-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-title {
+            font-family: 'Cinzel', serif;
+            color: var(--color-accent);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .section-title::before {
+            content: '▸';
+            color: var(--color-accent);
+            font-size: 1.2rem;
+        }
+        
+        .section-text {
+            line-height: 1.8;
+            color: var(--color-text-secondary);
+            font-size: 1.05rem;
+        }
+        
+        .section-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .section-list li {
+            padding: 0.8rem 0;
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--color-border);
+            line-height: 1.6;
+        }
+        
+        .section-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-list li::before {
+            content: '⚠';
+            margin-right: 0.8rem;
+            color: var(--color-danger);
+            font-size: 1.1rem;
+        }
+        
+        .chain-step {
+            background: var(--color-bg-dark);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.8rem;
+            border-left: 3px solid var(--color-accent);
+        }
+        
+        .chain-number {
+            font-family: 'Courier New', monospace;
+            color: var(--color-accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        /* Modal de imagen ampliada */
+        .image-fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            z-index: 2000;
+            cursor: zoom-out;
+            animation: fadeIn 220ms ease;
+        }
+        
+        .image-fullscreen-modal img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            box-shadow: 0 0 60px rgba(0,0,0,0.8);
+            border: 3px solid var(--color-border);
+            border-radius: var(--radius-md);
+        }
+        
+        .image-fullscreen-modal .modal-close {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            cursor: pointer;
+        }
+        
+        /* Sección footer y equipo */
+        .footer-section {
+            background: var(--color-bg-medium);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 3px solid var(--color-accent);
+        }
+        
+        .footer-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+        
+        .footer-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--color-text-secondary);
+        }
+        
+        .btn-primary {
+            background: var(--color-accent);
+            color: var(--color-bg-dark);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background: #fbbf24;
+        }
+        
+        .btn-primary:focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 3px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-card {
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-accent);
+        }
+        
+        .team-image-wrapper {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .team-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .team-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .team-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-role {
+            font-family: 'Courier New', monospace;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        
+        .team-bio {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: var(--color-bg-dark);
+            color: var(--color-text-muted);
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--color-border);
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .modal-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-left {
+                position: relative;
+                top: 0;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+            }
+            
+            .modal-layout {
+                padding: 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.8rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🗺️ ARCHIVO EXTINCIÓN 2060</h1>
+        <p class="subtitle">Post-Extinction Archive · Classified</p>
+        <span class="year-badge">AÑO 2060</span>
+    </header>
+    
+    <div class="container">
+        <div class="intro-text">
+            <strong>📜 Informe del Archivo, Año 2060</strong><br><br>
+            Este archivo documenta cinco especies que desaparecieron en las últimas cuatro décadas. 
+            Cada entrada contiene evidencia fotográfica histórica, análisis de las causas de extinción y las consecuencias 
+            irreversibles en los ecosistemas globales. <strong>Este registro sirve como testimonio de lo que perdimos 
+            y advertencia para las especies que aún quedan.</strong>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- PANGOLÍN -->
+            <div class="species-card" onclick="openModal('pangolin')">
+                <div class="card-image-wrapper">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f0eb361f-7628-4a82-8d03-53d9d3d5773b" alt="Pangolín" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <h2 class="card-title-main">Pangolín</h2>
+                        <div class="card-badges">
+                            <span class="badge badge-extinct">Extinto en Estado Salvaje</span>
+                            <span class="badge badge-biome">Selvas Tropicales</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">Manis sp. · El Guerrero con Armadura</p>
+                    <p class="card-description">
+                        <strong>Año de desaparición:</strong> 2035<br>
+                        <strong>Causa principal:</strong> Tráfico ilegal masivo<br>
+                        <strong>Última población:</strong> Solo en centros de cría
+                    </p>
+                </div>
+            </div>
+            
+            <!-- TIGRE DE SUMATRA -->
+            <div class="species-card" onclick="openModal('tiger')">
+                <div class="card-image-wrapper">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/1035e925-bfad-4c28-a523-e305bb01bdff" alt="Tigre de Sumatra" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <h2 class="card-title-main">Tigre de Sumatra</h2>
+                        <div class="card-badges">
+                            <span class="badge badge-extinct">Extinto en Estado Salvaje</span>
+                            <span class="badge badge-biome">Selva Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">Panthera tigris sumatrae · El Último Cazador</p>
+                    <p class="card-description">
+                        <strong>Año de desaparición:</strong> 2041<br>
+                        <strong>Causa principal:</strong> Deforestación total<br>
+                        <strong>Última población:</strong> Programas de cautiverio
+                    </p>
+                </div>
+            </div>
+            
+            <!-- ARRECIFE DE CORAL -->
+            <div class="species-card" onclick="openModal('coral')">
+                <div class="card-image-wrapper">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ed884abf-42e9-4433-ae99-aee6a0944b3e" alt="Arrecife de Coral" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <h2 class="card-title-main">Arrecife de Coral</h2>
+                        <div class="card-badges">
+                            <span class="badge badge-extinct">Colapso Funcional</span>
+                            <span class="badge badge-biome">Océanos Tropicales</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">Scleractinia · El Bosque Submarino Perdido</p>
+                    <p class="card-description">
+                        <strong>Año de colapso:</strong> 2038<br>
+                        <strong>Causa principal:</strong> Calentamiento oceánico<br>
+                        <strong>Estado actual:</strong> 94% de pérdida global
+                    </p>
+                </div>
+            </div>
+            
+            <!-- BARBIE PAGODA -->
+            <div class="species-card" onclick="openModal('barbie')">
+                <div class="card-image-wrapper">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/a84bcd6a-fffd-40ef-9443-27ad7a98dc24" alt="Barbie Pagoda" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <h2 class="card-title-main">Barbie Pagoda</h2>
+                        <div class="card-badges">
+                            <span class="badge badge-extinct">Extinción Local</span>
+                            <span class="badge badge-biome">AQUÍ SE PEGARÁ BIOMA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">Podoserpula miranda · AQUÍ SE PEGARÁ DESCRIPCIÓN</p>
+                    <p class="card-description">
+                        <strong>Año de desaparición:</strong> AQUÍ SE PEGARÁ AÑO<br>
+                        <strong>Causa principal:</strong> AQUÍ SE PEGARÁ CAUSA<br>
+                        <strong>Estado actual:</strong> AQUÍ SE PEGARÁ ESTADO
+                    </p>
+                </div>
+            </div>
+            
+            <!-- CÓNDOR ANDINO -->
+            <div class="species-card" onclick="openModal('condor')">
+                <div class="card-image-wrapper">
+                    <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2c709a74-9d87-40b4-aa49-2397652a55f5" alt="Cóndor Andino" class="card-image" loading="lazy">
+                    <div class="card-overlay">
+                        <h2 class="card-title-main">Cóndor Andino</h2>
+                        <div class="card-badges">
+                            <span class="badge badge-extinct">Extinción Local</span>
+                            <span class="badge badge-biome">Cordillera Andina</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">Vultur gryphus · El Rey Caído de los Andes</p>
+                    <p class="card-description">
+                        <strong>Año de desaparición:</strong> 2044<br>
+                        <strong>Causa principal:</strong> Envenenamiento masivo<br>
+                        <strong>Estado actual:</strong> Extinto en Colombia y Ecuador
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-section">
+        <h2>⚔️ El Legado que Perdimos</h2>
+        <p>
+            En 2060, miramos atrás con la certeza de que pudimos haber actuado. Estas cinco especies son solo 
+            una fracción de la biodiversidad que desapareció entre 2020 y 2060. Este archivo existe para 
+            recordarnos que cada extinción fue prevenible, y que el futuro de las especies restantes 
+            depende de las decisiones que tomemos ahora.
+        </p>
+        <button class="btn-primary" onclick="openTeamModal()">Conocer al Equipo</button>
+    </div>
+    
+    <footer>
+        <p><strong>Archivo Extinción 2060</strong> | Documentación Post-Extinción</p>
+        <p>Archivo clasificado compilado por el Equipo de Conservación Retrospectiva</p>
+        <p>🗺️ Basado en registros históricos 2020-2060 🗺️</p>
+    </footer>
+    
+    <!-- MODALES DE ESPECIES -->
+    
+    <!-- Modal Pangolín -->
+    <div id="modal-pangolin" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-pangolin">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('pangolin')" aria-label="Cerrar modal">✕</button>
+            
+            <div class="modal-layout">
+                <div class="modal-left">
+                    <div class="modal-image-container" onclick="openImageFullscreen('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f0eb361f-7628-4a82-8d03-53d9d3d5773b')" title="Click para ampliar imagen">
+                        <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f0eb361f-7628-4a82-8d03-53d9d3d5773b" alt="Pangolín" class="modal-image">
+                    </div>
+                    
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Estado</div>
+                            <div class="summary-card-value">Extinto en Estado Salvaje</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Año Desaparición</div>
+                            <div class="summary-card-value">2035</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Servicio Perdido</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ SERVICIO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Impacto Humano</div>
+                            <div class="summary-card-value">Tráfico Ilegal Masivo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-right">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modal-title-pangolin">Pangolín</h2>
+                        <p class="modal-scientific">Manis sp. · El Guerrero con Armadura</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Informe Post-Extinción (2060)</h3>
+                        <p class="section-text">
+                            AQUÍ SE PEGARÁ UN TEXTO SOBRE EL INFORME POST-EXTINCIÓN DEL PANGOLÍN
+                        </p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Causas de su Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Consecuencias tras la Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Efecto Dominó en el Ecosistema</h3>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 1</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 2</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 3</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">¿Qué Habría Evitado Esto?</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Tigre -->
+    <div id="modal-tiger" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-tiger">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('tiger')" aria-label="Cerrar modal">✕</button>
+            
+            <div class="modal-layout">
+                <div class="modal-left">
+                    <div class="modal-image-container" onclick="openImageFullscreen('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/1035e925-bfad-4c28-a523-e305bb01bdff')" title="Click para ampliar imagen">
+                        <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/1035e925-bfad-4c28-a523-e305bb01bdff" alt="Tigre de Sumatra" class="modal-image">
+                    </div>
+                    
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Estado</div>
+                            <div class="summary-card-value">Extinto en Estado Salvaje</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Año Desaparición</div>
+                            <div class="summary-card-value">2041</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Servicio Perdido</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ SERVICIO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Impacto Humano</div>
+                            <div class="summary-card-value">Deforestación Total</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-right">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modal-title-tiger">Tigre de Sumatra</h2>
+                        <p class="modal-scientific">Panthera tigris sumatrae · El Último Cazador</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Informe Post-Extinción (2060)</h3>
+                        <p class="section-text">
+                            AQUÍ SE PEGARÁ UN TEXTO SOBRE EL INFORME POST-EXTINCIÓN DEL TIGRE DE SUMATRA
+                        </p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Causas de su Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Consecuencias tras la Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Efecto Dominó en el Ecosistema</h3>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 1</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 2</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 3</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">¿Qué Habría Evitado Esto?</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Coral -->
+    <div id="modal-coral" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-coral">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('coral')" aria-label="Cerrar modal">✕</button>
+            
+            <div class="modal-layout">
+                <div class="modal-left">
+                    <div class="modal-image-container" onclick="openImageFullscreen('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ed884abf-42e9-4433-ae99-aee6a0944b3e')" title="Click para ampliar imagen">
+                        <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ed884abf-42e9-4433-ae99-aee6a0944b3e" alt="Arrecife de Coral" class="modal-image">
+                    </div>
+                    
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Estado</div>
+                            <div class="summary-card-value">Colapso Funcional</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Año Colapso</div>
+                            <div class="summary-card-value">2038</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Servicio Perdido</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ SERVICIO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Impacto Humano</div>
+                            <div class="summary-card-value">Calentamiento Oceánico</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-right">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modal-title-coral">Arrecife de Coral</h2>
+                        <p class="modal-scientific">Scleractinia · El Bosque Submarino Perdido</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Informe Post-Extinción (2060)</h3>
+                        <p class="section-text">
+                            AQUÍ SE PEGARÁ UN TEXTO SOBRE EL INFORME POST-EXTINCIÓN DE LOS ARRECIFES DE CORAL
+                        </p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Causas de su Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Consecuencias tras la Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Efecto Dominó en el Ecosistema</h3>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 1</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 2</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 3</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">¿Qué Habría Evitado Esto?</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Barbie Pagoda -->
+    <div id="modal-barbie" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-barbie">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('barbie')" aria-label="Cerrar modal">✕</button>
+            
+            <div class="modal-layout">
+                <div class="modal-left">
+                    <div class="modal-image-container" onclick="openImageFullscreen('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/a84bcd6a-fffd-40ef-9443-27ad7a98dc24')" title="Click para ampliar imagen">
+                        <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/a84bcd6a-fffd-40ef-9443-27ad7a98dc24" alt="Barbie Pagoda" class="modal-image">
+                    </div>
+                    
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Estado</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ ESTADO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Año Desaparición</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ AÑO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Servicio Perdido</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ SERVICIO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Impacto Humano</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ IMPACTO</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-right">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modal-title-barbie">Barbie Pagoda</h2>
+                        <p class="modal-scientific">Podoserpula miranda · AQUÍ SE PEGARÁ DESCRIPCIÓN</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Informe Post-Extinción (2060)</h3>
+                        <p class="section-text">
+                            AQUÍ SE PEGARÁ UN TEXTO SOBRE EL INFORME POST-EXTINCIÓN DE BARBIE PAGODA
+                        </p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Causas de su Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Consecuencias tras la Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Efecto Dominó en el Ecosistema</h3>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 1</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 2</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 3</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">¿Qué Habría Evitado Esto?</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Cóndor -->
+    <div id="modal-condor" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-condor">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('condor')" aria-label="Cerrar modal">✕</button>
+            
+            <div class="modal-layout">
+                <div class="modal-left">
+                    <div class="modal-image-container" onclick="openImageFullscreen('https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2c709a74-9d87-40b4-aa49-2397652a55f5')" title="Click para ampliar imagen">
+                        <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2c709a74-9d87-40b4-aa49-2397652a55f5" alt="Cóndor Andino" class="modal-image">
+                    </div>
+                    
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <div class="summary-card-label">Estado</div>
+                            <div class="summary-card-value">Extinción Local</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Año Desaparición</div>
+                            <div class="summary-card-value">2044</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Servicio Perdido</div>
+                            <div class="summary-card-value">AQUÍ SE PEGARÁ SERVICIO</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-card-label">Impacto Humano</div>
+                            <div class="summary-card-value">Envenenamiento Masivo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-right">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modal-title-condor">Cóndor Andino</h2>
+                        <p class="modal-scientific">Vultur gryphus · El Rey Caído de los Andes</p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Informe Post-Extinción (2060)</h3>
+                        <p class="section-text">
+                            AQUÍ SE PEGARÁ UN TEXTO SOBRE EL INFORME POST-EXTINCIÓN DEL CÓNDOR ANDINO
+                        </p>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Causas de su Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CAUSAS DE EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Consecuencias tras la Extinción</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                            <li>AQUÍ SE PEGARÁ UNA LISTA SOBRE LAS CONSECUENCIAS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">Efecto Dominó en el Ecosistema</h3>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 1</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 2</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                        <div class="chain-step">
+                            <div class="chain-number">PASO 3</div>
+                            <p class="section-text">AQUÍ SE PEGARÁ UNA CADENA SOBRE EL EFECTO DOMINÓ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3 class="section-title">¿Qué Habría Evitado Esto?</h3>
+                        <ul class="section-list">
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                            <li>AQUÍ SE PEGARÁN MEDIDAS SOBRE QUÉ HABRÍA EVITADO LA EXTINCIÓN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Equipo -->
+    <div id="modal-team" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-team">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('team')" aria-label="Cerrar modal">✕</button>
+            
+            <div style="padding: 2.5rem;">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modal-title-team">Equipo de Conservación Retrospectiva</h2>
+                    <p class="modal-scientific">Los Documentalistas del Archivo 2060</p>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-image-wrapper">
+                            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2229f224-6652-4b4b-acce-94beaf895b64" alt="Darkar" class="team-image" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3 class="team-name">Darkar</h3>
+                            <p class="team-role">Rol: AQUÍ SE PEGARÁ ROL</p>
+                            <p class="team-bio">Aquí se mostrará una breve bio del integrante</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-card">
+                        <div class="team-image-wrapper">
+                            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/7fbb0185-ebac-4332-93a5-36c36ff43763" alt="Sandra" class="team-image" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3 class="team-name">Sandra</h3>
+                            <p class="team-role">Rol: AQUÍ SE PEGARÁ ROL</p>
+                            <p class="team-bio">Aquí se mostrará una breve bio del integrante</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-card">
+                        <div class="team-image-wrapper">
+                            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/04b5e010-efa4-4672-9dd8-faf5d1ce6eda" alt="Diego" class="team-image" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3 class="team-name">Diego</h3>
+                            <p class="team-role">Rol: AQUÍ SE PEGARÁ ROL</p>
+                            <p class="team-bio">Aquí se mostrará una breve bio del integrante</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-card">
+                        <div class="team-image-wrapper">
+                            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/f8e7d735-cbeb-42f9-98ab-b4f867106971" alt="Samuel" class="team-image" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3 class="team-name">Samuel</h3>
+                            <p class="team-role">Rol: AQUÍ SE PEGARÁ ROL</p>
+                            <p class="team-bio">Aquí se mostrará una breve bio del integrante</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-card">
+                        <div class="team-image-wrapper">
+                            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/4e1ede50-bef3-4fa6-8bbe-db6242e40c2d" alt="Iván" class="team-image" loading="lazy">
+                        </div>
+                        <div class="team-content">
+                            <h3 class="team-name">Iván</h3>
+                            <p class="team-role">Rol: AQUÍ SE PEGARÁ ROL</p>
+                            <p class="team-bio">Aquí se mostrará una breve bio del integrante</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Imagen Ampliada -->
+    <div id="image-fullscreen-modal" class="image-fullscreen-modal">
+        <button class="modal-close" onclick="closeImageFullscreen()" aria-label="Cerrar imagen">✕</button>
+        <img src="" alt="Imagen ampliada">
+    </div>
+    
+    <script>
+        let currentFocusedElement = null;
+        
+        function openModal(speciesId) {
+            currentFocusedElement = document.activeElement;
+            const modal = document.getElementById('modal-' + speciesId);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                const closeButton = modal.querySelector('.modal-close');
+                if (closeButton) closeButton.focus();
+            }, 100);
+        }
+        
+        function closeModal(speciesId) {
+            const modal = document.getElementById('modal-' + speciesId);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            if (currentFocusedElement) {
+                currentFocusedElement.focus();
+                currentFocusedElement = null;
+            }
+        }
+        
+        function openTeamModal() {
+            currentFocusedElement = document.activeElement;
+            const modal = document.getElementById('modal-team');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                const closeButton = modal.querySelector('.modal-close');
+                if (closeButton) closeButton.focus();
+            }, 100);
+        }
+        
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    
+                    if (currentFocusedElement) {
+                        currentFocusedElement.focus();
+                        currentFocusedElement = null;
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+                document.body.style.overflow = 'auto';
+                
+                const imageModal = document.getElementById('image-fullscreen-modal');
+                if (imageModal && imageModal.style.display === 'block') {
+                    imageModal.style.display = 'none';
+                }
+                
+                if (currentFocusedElement) {
+                    currentFocusedElement.focus();
+                    currentFocusedElement = null;
+                }
+            }
+        });
+        
+        function openImageFullscreen(imageSrc) {
+            let imageModal = document.getElementById('image-fullscreen-modal');
+            const img = imageModal.querySelector('img');
+            img.src = imageSrc;
+            imageModal.style.display = 'block';
+        }
+        
+        function closeImageFullscreen() {
+            const imageModal = document.getElementById('image-fullscreen-modal');
+            if (imageModal) {
+                imageModal.style.display = 'none';
+            }
+        }
+        
+        const imageFullscreenModal = document.getElementById('image-fullscreen-modal');
+        if (imageFullscreenModal) {
+            imageFullscreenModal.onclick = function(e) {
+                if (e.target === imageFullscreenModal) {
+                    closeImageFullscreen();
+                }
+            };
+        }
+    </script>
+</body>
+</html>
